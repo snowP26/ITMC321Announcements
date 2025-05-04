@@ -9,6 +9,6 @@ router.get("/", getTicket);
 
 router.delete("/:id", deleteTicket);
 
-router.put("/:id", updateTicket)
+router.put("/:id", updateTicket);
 
 export default router;
