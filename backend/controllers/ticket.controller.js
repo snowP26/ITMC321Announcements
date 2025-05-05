@@ -8,7 +8,7 @@ export const postTicket = async(req, res) => {
         return res.status(400).json({ success: false, message: "Please fill all the fields" });
     }
 
-    const newTicket = new Ticket(ticket)
+    const newTicket = new Ticket(ticket) 
 
     try {
         await newTicket.save();
