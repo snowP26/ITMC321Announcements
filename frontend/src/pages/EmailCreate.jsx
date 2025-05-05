@@ -72,7 +72,10 @@ function EmailCreate() {
                         Department:
                     </Text>
                     <Select placeholder='Choose who to announce to...' color='gray.500' borderColor='gray.500'>
-                        <option>option 1</option>
+                        <option>Budget</option>
+                        <option>Finance</option>
+                        <option>Management</option>
+                        <option>Executive</option>
                     </Select>
 
                      {/* Submission Button */}

@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import EmailCreate from "./pages/EmailCreate";
 import SocialCreate from "./pages/SocialCreate";
 import Selection from "./pages/Selection";
+import Approval from "./pages/Approval";
 
 function App() {
   return(
@@ -12,6 +13,7 @@ function App() {
         <Route path='/' element={ <Selection />} />
         <Route path='/EmailCreate' element={ <EmailCreate />} />
         <Route path='/SocialCreate' element={ <SocialCreate />} />
+        <Route path='/Approval' element={ <Approval />} />
       </Routes>
     </Box>
   )
