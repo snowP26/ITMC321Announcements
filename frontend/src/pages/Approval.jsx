@@ -1,9 +1,11 @@
-import { Box, Text, Center, Container, Grid, GridItem, ButtonGroup, Button, Flex, Avatar, Spacer } from "@chakra-ui/react"
+
+import { Box, Text } from "@chakra-ui/react"
 import { useState } from 'react'
 import Card from "../components/card"
 
 
 const Approval = () => {
+    const [Approve, setApprove] = useState(false)
 
 
 
@@ -25,7 +27,7 @@ const Approval = () => {
                 <Text textAlign={"left"}>Review and approve announcements submitted.</Text>
 
                 <Card
-                    name="Jibril Bugtong"
+                    name="Nian Obias"
                     date="January 1, 2025"
                     body="WHATASJKLFHASJKFHAS JKHASFJKH FAASASD ASD AD"
                     approve={false}
