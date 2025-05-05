@@ -1,45 +1,53 @@
 import { Input, Box, Text, Center, Textarea, Select, ButtonGroup, Button } from "@chakra-ui/react"
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAnnouncementStore } from "../../store/announcements";
+import { useToast } from '@chakra-ui/react'
 
 function EmailCreate() {
+    const navigate = useNavigate();
+    const toast = useToast()
+
     const [selected, setSelected] = useState('normal');
     const [ticket, setTicket] = useState({
         header: "",
         type: "Pending",
         urgent: false,
         recipient: "",
-        description: ""
+        description: "",
     })
+    
+    const {createAnnouncement} = useAnnouncementStore()
+    const handleNewAnnouncement = async () => {
 
-    const handleSubmit = async () => {
-        const data = {
-          type: ticket.type, // or whatever logic you're using
-          urgent: ticket.urgent,
-          recipient: ticket.recipient,
-          description: ticket.description,
-          title: ticket.title // Make sure title is also stored
-        };
-      
-        try {
-          const res = await fetch('http://localhost:5000/api/tickets/create', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          });
-      
-          const result = await res.json();
-          if (result.success) {
-            console.log("Ticket created successfully!");
-          } else {
-            console.error(result.message);
-          }
-        } catch (error) {
-          console.error("Error submitting ticket:", error);
+        if (
+            ticket.header.trim() === '' ||
+            ticket.description.trim() === '' ||
+            ticket.recipient.trim() === ''
+        ) {
+            toast({
+                title: 'Missing Fields',
+                description: 'Please complete all fields before submitting.',
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            });
+            return;  
         }
-      };
+    
+        const { success, message } = await createAnnouncement(ticket);
+        toast({
+            title: 'Announcement Posted',
+            description: "You have successfully created an announcement",
+            status: "success",
+            duration: 7000,
+            isClosable: true,
+        });
+    
+        setTimeout(() => {
+            navigate('/');
+        }, 1000);
+    }
 
     return (
         <>
@@ -68,7 +76,7 @@ function EmailCreate() {
                         Announcement Title:
                     </Text>
 
-                    <Input placeholder='Enter announcement title here...' onChange={(x) => setTicket({ ...ticket, header: x.target.value }) }/>
+                    <Input placeholder='Enter announcement title here...' onChange={(x) => setTicket({ ...ticket, header: x.target.value })} />
                     <Text textColor='red.500' alignSelf='flex-start'>Title is required!</Text>
 
                     {/* Body Input */}
@@ -76,8 +84,8 @@ function EmailCreate() {
                         Announcement Body:
                     </Text>
 
-                    <Textarea placeholder='Enter announcement body here...' h='35vh' resize='none' maxLength={1000} 
-                        onChange={(x) => setTicket({ ...ticket, description: x.target.value }) }/>
+                    <Textarea placeholder='Enter announcement body here...' h='35vh' resize='none' maxLength={1000}
+                        onChange={(x) => setTicket({ ...ticket, description: x.target.value })} />
                     <Text fontSize='sm' mt={1} color='gray.600' alignSelf='flex-end'>
                         Max 1000 characters
                     </Text>
@@ -88,13 +96,13 @@ function EmailCreate() {
                             onClick={() => {
                                 setSelected('normal');
                                 setTicket({ ...ticket, urgent: false });
-                                }
+                            }
                             }
                             bg={selected === 'normal' ? 'gray.300' : 'white'}
                             borderColor='gray.700'
                             borderWidth='2px'
                             _hover={{ bg: selected === 'normal' ? 'gray.300' : 'gray.100' }}
-                            onChange={(x) => setTicket({ ...ticket, urgent: x.target.value }) }
+                            onChange={(x) => setTicket({ ...ticket, urgent: x.target.value })}
                         >
                             Normal Announcement
                         </Button>
@@ -102,7 +110,7 @@ function EmailCreate() {
                             onClick={() => {
                                 setSelected('urgent');
                                 setTicket({ ...ticket, urgent: true });
-                                }
+                            }
                             }
                             bg={selected === 'urgent' ? 'red.200' : 'white'}
                             borderColor='gray.700'
@@ -117,16 +125,16 @@ function EmailCreate() {
                     <Text fontWeight='bold' fontSize='2xl' alignSelf='flex-start' mb={2} mt={3}>
                         Department:
                     </Text>
-                    <Select placeholder='Choose who to announce to...' color='gray.500' borderColor='gray.500' onChange={(x) => setTicket({...ticket, recipient: x.target.value})}>
+                    <Select placeholder='Choose who to announce to...' color='gray.500' borderColor='gray.500' onChange={(x) => setTicket({ ...ticket, recipient: x.target.value })}>
                         <option>Budget</option>
                         <option>Finance</option>
                         <option>Management</option>
                         <option>Executive</option>
                     </Select>
 
-                     {/* Submission Button */}
+                    {/* Submission Button */}
                     <Box display="flex" flexDirection="row-reverse" gap={2} width="100%" mt={2}>
-                        <Button bgColor='#232EFF' color='white' w='full' h='40px' my='2' fontWeight='bold' onClick={() => handleSubmit()}>
+                        <Button bgColor='#232EFF' color='white' w='full' h='40px' my='2' fontWeight='bold' onClick={handleNewAnnouncement} as={Link} to="/EmailCreate">
                             Submit
                         </Button>
                         <Button w='full' h='40px' my='2' variant='outline' borderColor='black' borderWidth='thin' fontWeight='bold' as={Link} to="/">

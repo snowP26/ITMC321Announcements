@@ -1,9 +1,54 @@
-import { Input, Box, Text, Center, Textarea, Select, ButtonGroup, Button } from "@chakra-ui/react"
+import { Input, Box, Text, Center, Textarea, ButtonGroup, Button } from "@chakra-ui/react"
 import { useState } from 'react';
-import { Link } from "react-router-dom";
+import { useAnnouncementStore } from "../../store/announcements";
+import { useToast } from '@chakra-ui/react'
+import { Link, useNavigate } from "react-router-dom";
 
 const SocialCreate = () => {
+        const navigate = useNavigate();
+        const toast = useToast()
+    
+
     const [selected, setSelected] = useState('normal');
+    const [ticket, setTicket] = useState({
+        header: "",
+        type: "Pending",
+        urgent: false,
+        recipient: "Social Media",
+        description: "",
+    })
+
+        const {createAnnouncement} = useAnnouncementStore()
+        const handleNewAnnouncement = async () => {
+    
+            if (
+                ticket.header.trim() === '' ||
+                ticket.description.trim() === '' ||
+                ticket.recipient.trim() === ''
+            ) {
+                toast({
+                    title: 'Missing Fields',
+                    description: 'Please complete all fields before submitting.',
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                });
+                return;  
+            }
+        
+            const { success, message } = await createAnnouncement(ticket);
+            toast({
+                title: 'Announcement Posted',
+                description: "You have successfully created an announcement",
+                status: "success",
+                duration: 7000,
+                isClosable: true,
+            });
+        
+            setTimeout(() => {
+                navigate('/');
+            }, 1000);
+        }
 
     return (
         <>
@@ -30,7 +75,10 @@ const SocialCreate = () => {
                     {/* Announcement Type Selection */}
                     <ButtonGroup isAttached variant='outline' borderRadius='full'>
                         <Button
-                            onClick={() => setSelected('normal')}
+                            onClick={() => {
+                                setSelected('normal');
+                                setTicket({ ...ticket, urgent: false });
+                            }}
                             bg={selected === 'normal' ? 'gray.300' : 'white'}
                             borderColor='gray.700'
                             borderWidth='2px'
@@ -39,7 +87,10 @@ const SocialCreate = () => {
                             Normal Announcement
                         </Button>
                         <Button
-                            onClick={() => setSelected('urgent')}
+                            onClick={() => {
+                                setSelected('urgent');
+                                setTicket({ ...ticket, urgent: true });
+                            }}
                             bg={selected === 'urgent' ? 'red.200' : 'white'}
                             borderColor='gray.700'
                             borderWidth='2px'
@@ -54,7 +105,7 @@ const SocialCreate = () => {
                         Announcement Title:
                     </Text>
 
-                    <Input placeholder='Enter announcement title here...' />
+                    <Input placeholder='Enter announcement title here...' onChange={(x) => setTicket({...ticket, header: x.target.value})}/>
                     <Text textColor='red.500' alignSelf='flex-start'>Title is required!</Text>
 
                     {/* Body Input */}
@@ -62,7 +113,7 @@ const SocialCreate = () => {
                         Announcement Body:
                     </Text>
 
-                    <Textarea placeholder='Enter announcement body here...' h='40vh' resize='none' maxLength={1000} />
+                    <Textarea placeholder='Enter announcement body here...' h='40vh' resize='none' maxLength={1000} onChange={(x) => setTicket({...ticket, description: x.target.value})} />
                     <Text fontSize='sm' mt={1} color='gray.600' alignSelf='flex-end'>
                         Max 1000 characters
                     </Text>
@@ -70,7 +121,7 @@ const SocialCreate = () => {
 
                     {/* Submission Button */}
                     <Box display="flex" flexDirection="row-reverse" gap={2} width="100%">
-                        <Button bgColor='#232EFF' color='white' w='full' h='40px' my='2' fontWeight='bold'>
+                        <Button bgColor='#232EFF' color='white' w='full' h='40px' my='2' fontWeight='bold' onClick={handleNewAnnouncement}>
                             Submit
                         </Button>
                         <Button w='full' h='40px' my='2' variant='outline' borderColor='black' borderWidth='thin' fontWeight='bold' as={Link} to="/">
