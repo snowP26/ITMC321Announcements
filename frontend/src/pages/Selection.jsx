@@ -13,7 +13,7 @@ const Selection = () => {
                 display='flex'
                 alignItems='center'
                 justifyContent='center'
-                padding='5'
+                padding='inherit'
                 flexDirection='column'
                 borderColor='gray.500'
                 width={{ base: '100%', md: '80%', lg: '60%', xl: '40%' }}
@@ -32,7 +32,7 @@ const Selection = () => {
                         to="/EmailCreate"
                         borderWidth='thin'
                         borderRadius='md'
-                        padding='12'
+                        padding='10'
                         flex='1'
                         textAlign='center'
                         _hover={{ borderColor: 'blue.400', boxShadow: 'md' }}
@@ -50,7 +50,7 @@ const Selection = () => {
                         to="/SocialCreate"
                         borderWidth='thin'
                         borderRadius='md'
-                        padding='12'
+                        padding='10'
                         flex='1'
                         textAlign='center'
                         _hover={{ borderColor: 'blue.400', boxShadow: 'md' }}
