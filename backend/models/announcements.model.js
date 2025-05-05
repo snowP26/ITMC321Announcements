@@ -17,7 +17,7 @@ const ticketSchema = new mongoose.Schema({
     },
     recipient: {
         type: String,
-        enum: ["Budget", "Finance", "Management", "Executive"],
+        enum: ["Budget", "Finance", "Management", "Executive", "Social Media"],
         required: true
     },
     description: {

@@ -12,7 +12,7 @@ export const postTicket = async(req, res) => {
 
     try {
         await newTicket.save();
-        res.status(201).json({ success: true, message: "Ticket created successfully" });    
+        res.status(201).json({ success: true, message: "Ticket created successfully", data: newTicket });    
     } catch (error) {
         console.error("Error creating ticket:", error);
         res.status(500).json({ success: false, message: "Internal server error" });
