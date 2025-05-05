@@ -6,6 +6,10 @@ const ticketSchema = new mongoose.Schema({
         enum: ["Pending", "Approved", "Rejected", "For Revision"],
         required: true
     },
+    header: {
+        type: String,
+        required: true
+    },
     urgent: {
         type: Boolean,
         default: false,
@@ -13,12 +17,16 @@ const ticketSchema = new mongoose.Schema({
     },
     recipient: {
         type: String,
-        // enum: [""],
+        enum: ["Budget", "Finance", "Management", "Executive"],
         required: true
     },
     description: {
         type: String,
         required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
 }, {
     timestamps: true
