@@ -10,6 +10,14 @@ import {
   Avatar,
   Spacer,
   useBreakpointValue,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 const Card = ({ name, date, body, approve, urgent, header }) => {
@@ -18,14 +26,14 @@ const Card = ({ name, date, body, approve, urgent, header }) => {
     md: "60vw",
     lg: "40vw",
   });
-  const cardHeight = useBreakpointValue({ base: "auto", md: "30vh" });
+  
+  const { isOpen, onOpen, onClose } = useDisclosure(); 
 
   return (
     <Container
       borderWidth="1px"
       borderRadius="10px"
       borderColor="black"
-      maxH={cardHeight}
       width={cardWidth}
       padding={4}
       marginTop={2}
@@ -36,6 +44,7 @@ const Card = ({ name, date, body, approve, urgent, header }) => {
         gap="2"
         fontWeight="semibold"
       >
+        {/* Header */}
         <GridItem area={"header"}>
           <Flex flexDirection={"row"} alignItems="center">
             <Avatar size={"md"} mr={3} />
@@ -78,6 +87,7 @@ const Card = ({ name, date, body, approve, urgent, header }) => {
                   height="25px"
                   animation="pulse 2s infinite"
                   boxShadow="0 0 8px rgba(255, 0, 0, 0.7)"
+                  ml={2}
                 >
                   URGENT
                 </Flex>
@@ -92,12 +102,33 @@ const Card = ({ name, date, body, approve, urgent, header }) => {
             <Text fontWeight="extrabold" fontSize={{ base: "md", md: "lg" }}>
               {header}
             </Text>
-            <Text fontSize={{ base: "sm", md: "md" }} maxW="60" isTruncated>
+            <Text fontSize={{ base: "sm", md: "md" }} noOfLines={2}>
               {body}
             </Text>
-            <Text fontSize="xs" color="blue">
+            <Text
+              fontSize="xs"
+              color="blue.500"
+              cursor="pointer"
+              mt={1}
+              onClick={onOpen}
+            >
               Read More
             </Text>
+            <Modal isOpen={isOpen} onClose={onClose} isCentered>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>{header}</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  <Text>{body}</Text>
+                </ModalBody>
+                <ModalFooter>
+                  <Button colorScheme="blue" onClick={onClose}>
+                    Close
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
           </Flex>
         </GridItem>
 

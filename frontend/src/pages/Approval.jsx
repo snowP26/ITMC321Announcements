@@ -10,46 +10,66 @@ const Approval = () => {
   useEffect(() => {
     fetchAnnouncements();
   }, [fetchAnnouncements]);
-  console.log("Announcements:", announcements);
 
   return (
-    <Center maxH={"100vh"} my={"2"}>
-      <Box
-        borderWidth="1px"
-        borderRadius="10px"
-        overflow="hidden"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        padding="5"
-        flexDirection="column"
-        borderColor="gray.500"
-      >
-        <Text fontSize={"3xl"} fontWeight={"bold"} textAlign={"left"}>
-          Pending Announcements
-        </Text>
-        <Text textAlign={"left"}>
-          Review and approve announcements submitted.
-        </Text>
-        <SimpleGrid spacing={2} w={"full"}></SimpleGrid>
-        <Card />
+    <Box h="100vh" overflowY="auto">
+      <Center my={2}>
+        <Box
+          borderWidth="1px"
+          borderRadius="10px"
+          overflow="hidden"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          padding="5"
+          flexDirection="column"
+          borderColor="gray.500"
+          w="100%"
+          maxW="800px"
+        >
+          <Text fontSize="3xl" fontWeight="bold" w="full" mb={1}>
+            Pending Announcements
+          </Text>
+          <Text w="full" mb={4}>
+            Review and approve announcements submitted.
+          </Text>
 
-        {announcements && announcements.length > 0 ? (
-          announcements.map((item) => (
-            <Card
-              key={item.id}
-              name={item.recipient}
-              date={new Date(item.createdAt).toLocaleDateString()}
-              body={item.description}
-              header={item.header}
-              urgent={item.urgent}
-            />
-          ))
-        ) : (
-          <Text>No announcements found.</Text>
-        )}
-      </Box>
-    </Center>
+          <SimpleGrid spacing={2} w="full">
+            {announcements && announcements.length > 0 ? (
+              announcements
+                .slice()
+                .reverse()
+                .map((item) => (
+                  <Card
+                    key={item._id || item.id}
+                    name={item.recipient}
+                    date={`${new Date(item.createdAt).toLocaleDateString(
+                      "en-GB",
+                      {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      }
+                    )} • ${new Date(item.createdAt).toLocaleTimeString(
+                      "en-US",
+                      {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      }
+                    )}`}
+                    body={item.description}
+                    header={item.header}
+                    urgent={item.urgent}
+                  />
+                ))
+            ) : (
+              <Text>No announcements found.</Text>
+            )}
+          </SimpleGrid>
+        </Box>
+      </Center>
+    </Box>
   );
 };
 
