@@ -12,7 +12,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 
-const Card = ({ name, date, body, approve }) => {
+const Card = ({ name, date, body, approve, urgent, header }) => {
   const cardWidth = useBreakpointValue({
     base: "90vw",
     md: "60vw",
@@ -36,7 +36,6 @@ const Card = ({ name, date, body, approve }) => {
         gap="2"
         fontWeight="semibold"
       >
-        {/* Header */}
         <GridItem area={"header"}>
           <Flex flexDirection={"row"} alignItems="center">
             <Avatar size={"md"} mr={3} />
@@ -64,6 +63,25 @@ const Card = ({ name, date, body, approve }) => {
               >
                 {approve ? "Approved" : "Pending"}
               </Flex>
+              {urgent && (
+                <Flex
+                  as={Text}
+                  borderRadius="30px"
+                  border="2px solid red"
+                  bg="red.500"
+                  color="white"
+                  fontSize="2xs"
+                  fontWeight="bold"
+                  alignItems="center"
+                  justifyContent="center"
+                  px={3}
+                  height="25px"
+                  animation="pulse 2s infinite"
+                  boxShadow="0 0 8px rgba(255, 0, 0, 0.7)"
+                >
+                  URGENT
+                </Flex>
+              )}
             </Flex>
           </Flex>
         </GridItem>
@@ -72,9 +90,9 @@ const Card = ({ name, date, body, approve }) => {
         <GridItem area={"main"}>
           <Flex flexDirection="column">
             <Text fontWeight="extrabold" fontSize={{ base: "md", md: "lg" }}>
-              Header
+              {header}
             </Text>
-            <Text fontSize={{ base: "sm", md: "md" }} isTruncated>
+            <Text fontSize={{ base: "sm", md: "md" }} maxW="60" isTruncated>
               {body}
             </Text>
             <Text fontSize="xs" color="blue">
