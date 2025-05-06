@@ -22,7 +22,7 @@ export const postTicket = async(req, res) => {
 export const getTicket = async (req, res) => {
     try {
         const tickets = await Ticket.find();
-        res.status(200).json({ success: true, tickets });
+        res.status(200).json({ success: true, data: tickets });
     } catch (error) {
         console.error("Error fetching tickets:", error);
         res.status(500).json({ success: false, message: "Internal server error" });

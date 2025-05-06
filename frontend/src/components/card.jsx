@@ -1,92 +1,126 @@
-import React from 'react';
-import { Text, Container, Grid, GridItem, ButtonGroup, Button, Flex, Avatar, Spacer } from "@chakra-ui/react";
+import React from "react";
+import {
+  Text,
+  Container,
+  Grid,
+  GridItem,
+  ButtonGroup,
+  Button,
+  Flex,
+  Avatar,
+  Spacer,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 
 const Card = ({ name, date, body, approve }) => {
-    
+  const cardWidth = useBreakpointValue({
+    base: "90vw",
+    md: "60vw",
+    lg: "40vw",
+  });
+  const cardHeight = useBreakpointValue({ base: "auto", md: "30vh" });
 
-    return (
-        <Container
-            borderWidth='1px'
-            borderRadius='10px'
-            borderColor='black'
-            maxH={"30vh"}
-            width={"50vh"}
-            padding={4}
-            marginTop={2}
-        >
-            <Grid
-                templateAreas={`"header header"
-                                "main main"
-                                "footer footer"`}
-                gridTemplateRows={'50px 1fr 30px'}
-                maxH={"30vh"}
-                gap='1'
-                fontWeight='semi-bold'
-            >
-                {/* Header */}
-                <GridItem px='2.5' area={'header'} alignContent={"center"}>
-                    <Flex flexDirection={'row'}>
-                        <Flex flexDirection={'column'} marginRight={2}>
-                            <Avatar size={"md"} />
-                        </Flex>
-                        <Flex flexDirection={'column'}>
-                            <Text fontSize={'sm'} fontWeight={"bold"}>{name}</Text>
-                            <Text fontSize={'xs'}>{date}</Text>
-                        </Flex>
-                        <Spacer />
-                        <Flex flexDirection={"column"}>
-                            <Flex
-                                as={Text}
-                                borderWidth={approve ? "thin" : "0.2175vh"}
-                                borderRadius={"30px"}
-                                borderStyle={"dotted"}
-                                borderColor={approve ? "white" : "red"}
-                                width={"80px"}
-                                height={"25px"}
-                                fontSize={"2xs"}
-                                alignItems={"center"}
-                                justifyContent={"center"}
-                                backgroundColor={approve ? "green" : "white"}
-                                color={approve ? "white" : "red"}
-                            >
-                                {approve ? "Approved" : "Pending"}
-                            </Flex>
-                        </Flex>
-                    </Flex>
-                </GridItem>
+  return (
+    <Container
+      borderWidth="1px"
+      borderRadius="10px"
+      borderColor="black"
+      maxH={cardHeight}
+      width={cardWidth}
+      padding={4}
+      marginTop={2}
+    >
+      <Grid
+        templateAreas={`"header" "main" "footer"`}
+        gridTemplateRows={"auto 1fr auto"}
+        gap="2"
+        fontWeight="semibold"
+      >
+        {/* Header */}
+        <GridItem area={"header"}>
+          <Flex flexDirection={"row"} alignItems="center">
+            <Avatar size={"md"} mr={3} />
+            <Flex flexDirection={"column"}>
+              <Text fontSize={{ base: "sm", md: "md" }} fontWeight="bold">
+                {name}
+              </Text>
+              <Text fontSize={{ base: "xs", md: "sm" }}>{date}</Text>
+            </Flex>
+            <Spacer />
+            <Flex>
+              <Flex
+                as={Text}
+                borderWidth={approve ? "1px" : "0.5px"}
+                borderRadius="30px"
+                borderStyle="dotted"
+                borderColor={approve ? "white" : "red"}
+                width="80px"
+                height="25px"
+                fontSize="2xs"
+                alignItems="center"
+                justifyContent="center"
+                bg={approve ? "green" : "white"}
+                color={approve ? "white" : "red"}
+              >
+                {approve ? "Approved" : "Pending"}
+              </Flex>
+            </Flex>
+          </Flex>
+        </GridItem>
 
-                {/* Main */}
-                <GridItem px='2.5' area={'main'}>
-                    <Flex flexDirection={"column"}>
-                        <Text fontWeight={"extrabold"} fontSize={'lg'}>Header</Text>
-                        <Flex flexDirection={"column"}>
-                            <Text fontSize={'sm'} maxWidth="80%" isTruncated>{body}</Text>
-                            <Text fontSize={'xs'} color={"blue"}>Read More</Text>
-                        </Flex>
-                    </Flex>
-                </GridItem>
+        {/* Main */}
+        <GridItem area={"main"}>
+          <Flex flexDirection="column">
+            <Text fontWeight="extrabold" fontSize={{ base: "md", md: "lg" }}>
+              Header
+            </Text>
+            <Text fontSize={{ base: "sm", md: "md" }} isTruncated>
+              {body}
+            </Text>
+            <Text fontSize="xs" color="blue">
+              Read More
+            </Text>
+          </Flex>
+        </GridItem>
 
-                {/* Footer */}
-                <GridItem px='2.5' area={'footer'}>
-                    <Flex flexDirection={"column-reverse"}>
-                        <ButtonGroup>
-                            <Text fontSize={'xs'} alignContent={"center"} color='blackAlpha.600'>Info</Text>
-                            <Spacer />
-                            <Button fontSize={'2xs'} bg={"gray.400"} height={"2.8vh"} borderWidth={1} borderColor={"gray"}>
-                                Revise
-                            </Button>
-                            <Button fontSize={'2xs'} bg={"white"} height={"2.8vh"} color={"red"} borderWidth={1} borderColor={"red"}>
-                                Reject
-                            </Button>
-                            <Button fontSize={'2xs'} bg={"green"} height={"2.8vh"} color={"white"}>
-                                Approve
-                            </Button>
-                        </ButtonGroup>
-                    </Flex>
-                </GridItem>
-            </Grid>
-        </Container>
-    );
+        {/* Footer */}
+        <GridItem area={"footer"}>
+          <Flex justifyContent="flex-end">
+            <ButtonGroup size="sm" spacing={1} flexWrap="wrap">
+              <Text
+                fontSize="xs"
+                color="blackAlpha.600"
+                mr={2}
+                alignSelf="center"
+              >
+                Info
+              </Text>
+              <Button
+                fontSize="xs"
+                bg="gray.400"
+                borderWidth={1}
+                borderColor="gray"
+              >
+                Revise
+              </Button>
+              <Button
+                fontSize="xs"
+                bg="white"
+                color="red"
+                borderWidth={1}
+                borderColor="red"
+              >
+                Reject
+              </Button>
+              <Button fontSize="xs" bg="green" color="white">
+                Approve
+              </Button>
+            </ButtonGroup>
+          </Flex>
+        </GridItem>
+      </Grid>
+    </Container>
+  );
 };
 
 export default Card;

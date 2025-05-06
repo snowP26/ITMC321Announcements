@@ -19,5 +19,10 @@ export const useAnnouncementStore = create((set) => ({
         const data = await res.json();
         set((state) => ({announcement:[...state.announcements, data.data]}))
         return{success: true, message: "Announcement successfully posted!"}
+    },
+    fetchAnnouncements: async () => {
+        const res = await fetch("/api/tickets")
+        const data = await res.json();
+        set({ announcements: data.data })
     }
-}));
+})); 

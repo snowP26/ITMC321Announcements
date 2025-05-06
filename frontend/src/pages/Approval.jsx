@@ -1,12 +1,19 @@
 
-import { Box, Text } from "@chakra-ui/react"
-import { useState } from 'react'
+import { Box, SimpleGrid, Text, Center } from "@chakra-ui/react"
+import { useEffect, useState } from 'react'
 import Card from "../components/card"
+import { useAnnouncementStore } from "../../store/announcements"
 
 
 const Approval = () => {
     const [Approve, setApprove] = useState(false)
+    const { fetchAnnouncements, announcements } = useAnnouncementStore();
 
+
+    useEffect(() => {
+        fetchAnnouncements();
+    }, [fetchAnnouncements])
+    console.log("Announcements:", announcements)
 
 
     return (
@@ -25,7 +32,12 @@ const Approval = () => {
 
                 <Text fontSize={"3xl"} fontWeight={"bold"} textAlign={"left"}>Pending Announcements</Text>
                 <Text textAlign={"left"}>Review and approve announcements submitted.</Text>
+                <SimpleGrid
+                    spacing={2}
+                    w={"full"}
+                >
 
+                </SimpleGrid>
                 <Card
                     name="Nian Obias"
                     date="January 1, 2025"
