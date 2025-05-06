@@ -3,6 +3,18 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAnnouncementStore } from "../../store/announcements";
 import { useToast } from '@chakra-ui/react'
+import emailjs from '@emailjs/browser';
+
+// function to convert department to respective emails
+const getDeptEmail = (department) => {
+    const departmentEmails = {
+        Budget: 'budget@gmail.com',
+        Finance: 'finance@gmail.com',
+        Management: 'management@gmail.com',
+        Executive: 'executive@gmail.com',
+    }
+    return departmentEmails[department] || '';
+}
 
 function EmailCreate() {
     const navigate = useNavigate();
@@ -18,6 +30,9 @@ function EmailCreate() {
     })
     
     const {createAnnouncement} = useAnnouncementStore()
+
+    const recipientEmail = getDeptEmail(ticket.recipient);
+
     const handleNewAnnouncement = async () => {
 
         if (
@@ -36,6 +51,26 @@ function EmailCreate() {
         }
     
         const { success, message } = await createAnnouncement(ticket);
+
+        // EmailJS API 
+        try {
+            await emailjs.send(
+                'service_tntzwzi',
+                'template_uu1bo4z',
+            {
+                header: ticket.header,
+                description: ticket.description,
+                recipient: ticket.recipient,
+                urgent: ticket.urgent ? "Urgent" : "Normal",
+                email: "recipientEmail",
+            },
+                'of2c11tg74qRsTu9R'
+            );
+            console.log("Email sent successfully");
+        } catch (error) {
+            console.error("Email failed:", error);
+        }
+
         toast({
             title: 'Announcement Posted',
             description: "You have successfully created an announcement",
