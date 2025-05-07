@@ -27,6 +27,7 @@ function EmailCreate() {
         urgent: false,
         recipient: "",
         description: "",
+        isSocial: false
     })
     
     const {createAnnouncement} = useAnnouncementStore()

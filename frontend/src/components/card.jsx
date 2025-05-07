@@ -102,7 +102,7 @@ const Card = ({ name, date, body, approve, urgent, header }) => {
             <Text fontWeight="extrabold" fontSize={{ base: "md", md: "lg" }}>
               {header}
             </Text>
-            <Text fontSize={{ base: "sm", md: "md" }} noOfLines={2}>
+            <Text fontSize={{ base: "sm", md: "md" }} maxWidth={"60%"} noOfLines={1}>
               {body}
             </Text>
             <Text
@@ -142,7 +142,7 @@ const Card = ({ name, date, body, approve, urgent, header }) => {
                 mr={2}
                 alignSelf="center"
               >
-                Info
+                Additional info:
               </Text>
               <Button
                 fontSize="xs"
