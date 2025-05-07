@@ -8,10 +8,10 @@ import emailjs from '@emailjs/browser';
 // function to convert department to respective emails
 const getDeptEmail = (department) => {
     const departmentEmails = {
-        Budget: 'budget@gmail.com',
-        Finance: 'finance@gmail.com',
-        Management: 'management@gmail.com',
-        Executive: 'executive@gmail.com',
+        Budget: 'jammariano@gbox.adnu.edu.ph',
+        Finance: 'jverceluz@gbox.adnu.edu.ph',
+        Management: 'jgverceluz@gmail.com',
+        Executive: 'iamvers26@gmail.com',
     }
     return departmentEmails[department] || '';
 }
@@ -27,14 +27,12 @@ function EmailCreate() {
         urgent: false,
         recipient: "",
         description: "",
-        isSocial: false
     })
     
     const {createAnnouncement} = useAnnouncementStore()
 
-    const recipientEmail = getDeptEmail(ticket.recipient);
-
     const handleNewAnnouncement = async () => {
+        const recipientEmail = getDeptEmail(ticket.recipient);
 
         if (
             ticket.header.trim() === '' ||
@@ -63,7 +61,7 @@ function EmailCreate() {
                 description: ticket.description,
                 recipient: ticket.recipient,
                 urgent: ticket.urgent ? "Urgent" : "Normal",
-                email: "recipientEmail",
+                email: ticket.recipientEmail,
             },
                 'of2c11tg74qRsTu9R'
             );

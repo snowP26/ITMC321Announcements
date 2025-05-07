@@ -15,8 +15,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 const SocialCreate = () => {
   const navigate = useNavigate();
-  const toast = useToast();
-  const [submitted, setSubmitted] = useState(false);
+//   const toast = useToast();
+//   const [submitted, setSubmitted] = useState(false);
 
 
   const [selected, setSelected] = useState("normal");
@@ -31,7 +31,7 @@ const SocialCreate = () => {
 
   const { createAnnouncement } = useAnnouncementStore();
   const handleNewAnnouncement = async () => {
-    setSubmitted(true);
+    // setSubmitted(true);
 
     if (
       ticket.header.trim() === "" ||
