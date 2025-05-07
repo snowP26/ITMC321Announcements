@@ -26,7 +26,7 @@ export const getTicket = async (req, res) => {
     } catch (error) {
         console.error("Error fetching tickets:", error);
         res.status(500).json({ success: false, message: "Internal server error" });
-    }
+    }   
 };
 
 export const updateTicket = async(req, res) => {
