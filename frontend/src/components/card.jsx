@@ -18,16 +18,58 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  useToast
 } from "@chakra-ui/react";
+import emailjs from '@emailjs/browser';
 
 const Card = ({ name, date, body, approve, urgent, header }) => {
+
+  const getDeptEmail = (department) => {
+    const departmentEmails = {
+      Budget: 'jverceluz@gbox.adnu.edu.ph',
+      Finance: 'jammariano@gbox.adnu.edu.ph',
+      Management: 'alturiano@gbox.adnu.edu.ph',
+      Executive: 'mmnagrampa@gbox.adnu.edu.ph',
+    }
+    return departmentEmails[department] || '';
+  }
+
   const cardWidth = useBreakpointValue({
     base: "90vw",
     md: "60vw",
     lg: "40vw",
   });
-  
-  const { isOpen, onOpen, onClose } = useDisclosure(); 
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast()
+
+  const approveTicket = async () => {
+    try {
+      const recipientEmail = getDeptEmail(name);
+      await emailjs.send(
+        'service_tntzwzi',
+        'template_uu1bo4z',
+        {
+          header: header,
+          description: body,
+          recipient: name,
+          urgent: urgent ? "Urgent" : "Normal",
+          email: recipientEmail
+        },
+        'of2c11tg74qRsTu9R'
+      );
+      toast({
+        title: 'Email sent!',
+        description: "Announcement sent to the receiver!",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      console.log("Email sent successfully");
+    } catch (error) {
+      console.error("Email failed:", error);
+    }
+  }
 
   return (
     <Container
@@ -146,14 +188,6 @@ const Card = ({ name, date, body, approve, urgent, header }) => {
               </Text>
               <Button
                 fontSize="xs"
-                bg="gray.400"
-                borderWidth={1}
-                borderColor="gray"
-              >
-                Revise
-              </Button>
-              <Button
-                fontSize="xs"
                 bg="white"
                 color="red"
                 borderWidth={1}
@@ -161,7 +195,7 @@ const Card = ({ name, date, body, approve, urgent, header }) => {
               >
                 Reject
               </Button>
-              <Button fontSize="xs" bg="green" color="white">
+              <Button fontSize="xs" bg="green" color="white" onClick={approveTicket}>
                 Approve
               </Button>
             </ButtonGroup>

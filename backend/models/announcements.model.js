@@ -31,7 +31,6 @@ const ticketSchema = new mongoose.Schema({
     isSocial: {
         type: Boolean,
         default: false,
-        required: false
     }
 }, {
     timestamps: true
