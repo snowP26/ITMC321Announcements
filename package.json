@@ -2,12 +2,15 @@
   "name": "announcementssysinteg",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "NODE_ENV=development nodemon backend/server.js",
     "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
     "start": "NODE_ENV=production node backend/server.js"
   },
-  "type": "module",
+  "engines": {
+    "node": "20.x"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
