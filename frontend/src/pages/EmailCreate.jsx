@@ -7,7 +7,7 @@ import { useToast } from '@chakra-ui/react'
 // function to convert department to respective emails
 const getDeptEmail = (department) => {
     const departmentEmails = {
-        Budget: 'jammariano@gbox.adnu.edu.ph',
+        Budget: 'mmnagrampa@gbox.adnu.edu.ph',
         Finance: 'jverceluz@gbox.adnu.edu.ph',
         Management: 'jgverceluz@gmail.com',
         Executive: 'iamvers26@gmail.com',

@@ -12,13 +12,13 @@ import {
 import { useState } from "react";
 import { useAnnouncementStore } from "../../store/announcements";
 import { Link, useNavigate } from "react-router-dom";
+import { postToFacebookPage } from '../components/facebookApi'; 
 
 const SocialCreate = () => {
   const navigate = useNavigate();
-//   const toast = useToast();
-//   const [submitted, setSubmitted] = useState(false);
-
-
+  const toast = useToast();
+  const [submitted, setSubmitted] = useState(false);
+  
   const [selected, setSelected] = useState("normal");
   const [ticket, setTicket] = useState({
     header: "",
@@ -29,9 +29,14 @@ const SocialCreate = () => {
     isSocial: true,
   });
 
+  const accessToken = import.meta.env.VITE_FB_PAGE_ACCESS_TOKEN; 
+  const pageId = import.meta.env.VITE_FB_PAGE_ID;
+
   const { createAnnouncement } = useAnnouncementStore();
   const handleNewAnnouncement = async () => {
-    // setSubmitted(true);
+
+    console.log("Token:", accessToken);
+    console.log("Page ID:", pageId);
 
     if (
       ticket.header.trim() === "" ||
@@ -48,14 +53,28 @@ const SocialCreate = () => {
       return;
     }
 
-    const { success, message } = await createAnnouncement(ticket);
-    toast({
-      title: "Announcement Posted",
-      description: "You have successfully created an announcement",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
+    try {
+      const message = `${ticket.header}\n\n${ticket.description}`;
+      await postToFacebookPage(message, accessToken, pageId);
+
+      toast ({
+        title: "Posted to Facebook",
+        description: "Announcement successfully posted to your Facebook Page.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      toast({
+        title: "Error posting to your Facebook Page.",
+        description: "error",
+        duration: 7000,
+        isClosable: true,
+      });
+    }
 
     setTimeout(() => {
       navigate("/");
