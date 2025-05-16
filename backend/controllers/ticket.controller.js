@@ -1,5 +1,6 @@
 import Ticket from '../models/announcements.model.js';
 import mongoose from 'mongoose';
+import axios from 'axios';
 
 export const postTicket = async(req, res) => {
     const ticket = req.body;
@@ -58,3 +59,9 @@ export const deleteTicket = async (req, res) => {
         
     }
 };
+
+export const getTicketStatus = async (referenceId) => {
+    return axios.post('https://express-auro.onrender.com/api/ticket/status', {
+      reference_id: referenceId,
+    });
+  };

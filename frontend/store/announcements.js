@@ -3,6 +3,7 @@ import { create } from "zustand";
 export const useAnnouncementStore = create((set) => ({
     announcements: [],
     setAnnouncements: (announcements) => set({ announcements }),
+
     createAnnouncement: async (newAnnouncement) => {
         if(!newAnnouncement.header || !newAnnouncement.description){
             return{success: false, message: "Please fill in all fields"}
@@ -17,9 +18,10 @@ export const useAnnouncementStore = create((set) => ({
         })
 
         const data = await res.json();
-        set((state) => ({announcement:[...state.announcements, data.data]}))
+        set((state) => ({announcements:[...state.announcements, data.data]}))
         return{success: true, message: "Announcement successfully posted!"}
     },
+
     fetchAnnouncements: async () => {
         const res = await fetch("/api/tickets")
         const data = await res.json();
