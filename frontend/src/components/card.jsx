@@ -22,7 +22,7 @@ import {
 } from "@chakra-ui/react";
 import emailjs from '@emailjs/browser';
 
-const Card = ({ name, date, body, approve, urgent, header }) => {
+const Card = ({ name, date, body, approve, urgent, header, type }) => {
 
   const getDeptEmail = (department) => {
     const departmentEmails = {
@@ -94,7 +94,7 @@ const Card = ({ name, date, body, approve, urgent, header }) => {
               <Text fontSize={{ base: "sm", md: "md" }} fontWeight="bold">
                 {name}
               </Text>
-              <Text fontSize={{ base: "xs", md: "sm" }}>{date}</Text>
+
             </Flex>
             <Spacer />
             <Flex>
@@ -184,19 +184,11 @@ const Card = ({ name, date, body, approve, urgent, header }) => {
                 mr={2}
                 alignSelf="center"
               >
-                Additional info:
-              </Text>
-              <Button
-                fontSize="xs"
-                bg="white"
-                color="red"
-                borderWidth={1}
-                borderColor="red"
-              >
-                Reject
-              </Button>
+                Additional info: {date}
+              </Text> 
+              
               <Button fontSize="xs" bg="green" color="white" onClick={approveTicket}>
-                Approve
+                Send Email
               </Button>
             </ButtonGroup>
           </Flex>
