@@ -42,6 +42,12 @@ const Approval = () => {
     loadNotes();
   }, []);
 
+  const sendEmailAndDelete = (idToDelete) => {
+    const updated = announcements.filter((item) => item._id !== idToDelete);
+    useAnnouncementStore.setState({ announcements: updated });
+  };
+  
+
   return (
     <Box h="100vh" overflowY="auto">
       <Center my={4}>
@@ -87,6 +93,7 @@ const Approval = () => {
                   .map((item) => (
                     <Card
                       key={item._id || item.id}
+                      id={item._id}
                       name={item.recipient}
                       date={`${new Date(item.createdAt).toLocaleDateString(
                         "en-GB",
@@ -106,6 +113,7 @@ const Approval = () => {
                       body={item.description}
                       header={item.header}
                       urgent={item.urgent}
+                      onSend={() => sendEmailAndDelete(item._id)}
                     />
                   ))
               ) : (

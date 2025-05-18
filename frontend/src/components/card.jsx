@@ -22,7 +22,7 @@ import {
 } from "@chakra-ui/react";
 import emailjs from '@emailjs/browser';
 
-const Card = ({ name, date, body, approve, urgent, header, type }) => {
+const Card = ({ id, name, date, body, approve, urgent, header, type, onSend }) => {
 
   const getDeptEmail = (department) => {
     const departmentEmails = {
@@ -46,6 +46,7 @@ const Card = ({ name, date, body, approve, urgent, header, type }) => {
   const approveTicket = async () => {
     try {
       const recipientEmail = getDeptEmail(name);
+  
       await emailjs.send(
         'service_tntzwzi',
         'template_uu1bo4z',
@@ -58,7 +59,7 @@ const Card = ({ name, date, body, approve, urgent, header, type }) => {
         },
         'of2c11tg74qRsTu9R'
       );
-      console.log(recipientEmail)
+  
       toast({
         title: 'Email sent!',
         description: "Announcement sent to the receiver!",
@@ -66,11 +67,23 @@ const Card = ({ name, date, body, approve, urgent, header, type }) => {
         duration: 2000,
         isClosable: true,
       });
-      console.log("Email sent successfully");
+  
+      const res = await fetch(`http://localhost:8000/api/tickets/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (res.ok) {
+        if (onSend) onSend();
+      } else {
+        console.error("Failed to delete ticket:", await res.text());
+      }
+      console.log("Deleting ticket with id:", id);
+
     } catch (error) {
-      console.error("Email failed:", error);
+      console.error("Error in approveTicket:", error);
     }
-  }
+  };
+  
 
   return (
     <Container

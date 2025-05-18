@@ -20,8 +20,6 @@ function EmailCreate() {
     const {createAnnouncement} = useAnnouncementStore()
 
     const handleNewAnnouncement = async () => {
-        const recipientEmail = getDeptEmail(ticket.recipient);
-
         if (
             ticket.header.trim() === '' ||
             ticket.description.trim() === '' ||

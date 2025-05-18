@@ -14,7 +14,7 @@ const PORT = process.env.PORT;
 const __dirname = path.resolve();
 
 app.use(cors({
-  origin: ['http://localhost:8000', 'https://itmc321announcements.onrender.com/'],
+  origin: ['http://localhost:3000', 'http://localhost:8000', 'https://itmc321announcements.onrender.com/'],
   methods: ['GET', 'POST', 'DELETE']
 }))
 app.use(express.json());

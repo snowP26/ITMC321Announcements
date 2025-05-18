@@ -35,9 +35,6 @@ const SocialCreate = () => {
   const { createAnnouncement } = useAnnouncementStore();
   const handleNewAnnouncement = async () => {
 
-    console.log("Token:", accessToken);
-    console.log("Page ID:", pageId);
-
     if (
       ticket.header.trim() === "" ||
       ticket.description.trim() === "" ||
@@ -54,8 +51,10 @@ const SocialCreate = () => {
     }
 
     try {
-      const message = `${ticket.header}\n\n${ticket.description}`;
+      const emphasizedTitle = `📢 ${ticket.header.toUpperCase()} 📢`;
+      const message = `${emphasizedTitle}\n\n${ticket.description}`;
       await postToFacebookPage(message, accessToken, pageId);
+
 
       toast ({
         title: "Posted to Facebook",
@@ -103,34 +102,6 @@ const SocialCreate = () => {
             Share an update or important information with your audience.
           </Text>
 
-          {/* Announcement Type Selection */}
-          <ButtonGroup isAttached variant="outline" borderRadius="full">
-            <Button
-              onClick={() => {
-                setSelected("normal");
-                setTicket({ ...ticket, urgent: false });
-              }}
-              bg={selected === "normal" ? "gray.300" : "white"}
-              borderColor="gray.700"
-              borderWidth="2px"
-              _hover={{ bg: selected === "normal" ? "gray.300" : "gray.100" }}
-            >
-              Normal Announcement
-            </Button>
-            <Button
-              onClick={() => {
-                setSelected("urgent");
-                setTicket({ ...ticket, urgent: true });
-              }}
-              bg={selected === "urgent" ? "red.200" : "white"}
-              borderColor="gray.700"
-              borderWidth="2px"
-              _hover={{ bg: selected === "urgent" ? "gray.300" : "gray.100" }}
-            >
-              Urgent Announcement
-            </Button>
-          </ButtonGroup>
-
           {/* Title Input */}
           <Text fontWeight="bold" fontSize="2xl" alignSelf="flex-start" my={2}>
             Announcement Title:
@@ -167,30 +138,6 @@ const SocialCreate = () => {
           <Text fontSize="sm" mt={1} color="gray.600" alignSelf="flex-end">
             Max 1000 characters
           </Text>
-
-          {/* Department Input */}
-          <Text
-            fontWeight="bold"
-            fontSize="2xl"
-            alignSelf="flex-start"
-            mb={2}
-          >
-            Department:
-          </Text>
-          <Select
-            placeholder="Choose who to announce to..."
-            color="gray.500"
-            borderColor="gray.500"
-            onChange={(x) =>
-              setTicket({ ...ticket, recipient: x.target.value })
-            }
-            mb={3}
-          >
-            <option>Budget</option>
-            <option>Finance</option>
-            <option>Management</option>
-            <option>Executive</option>
-          </Select>
 
           {/* Submission Button */}
           <Box display="flex" flexDirection="row-reverse" gap={2} width="100%">
