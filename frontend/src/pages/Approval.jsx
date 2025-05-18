@@ -22,7 +22,7 @@ const Approval = () => {
           data.map(async (note) => {
             try {
               const statusRes = await getTicketStatus(note._id);
-              const ticketData = statusRes.data.ticket[0] || {};
+              const ticketData = statusRes.data.ticket || {};
               const ticketStatus = ticketData.status || "Unavailable";
               const remarks = ticketData.remarks || ""; 
               return { ...note, ticketStatus, remarks };

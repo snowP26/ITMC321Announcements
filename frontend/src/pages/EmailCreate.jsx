@@ -4,17 +4,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAnnouncementStore } from "../../store/announcements";
 import { useToast } from '@chakra-ui/react'
 
-// function to convert department to respective emails
-const getDeptEmail = (department) => {
-    const departmentEmails = {
-        Budget: 'mmnagrampa@gbox.adnu.edu.ph',
-        Finance: 'jverceluz@gbox.adnu.edu.ph',
-        Management: 'jgverceluz@gmail.com',
-        Executive: 'iamvers26@gmail.com',
-    }
-    return departmentEmails[department] || '';
-}
-
 function EmailCreate() {
     const navigate = useNavigate();
     const toast = useToast()
@@ -55,6 +44,7 @@ function EmailCreate() {
             duration: 7000,
             isClosable: true,
         });
+
     
         setTimeout(() => {
             navigate('/');

@@ -26,10 +26,10 @@ const Card = ({ name, date, body, approve, urgent, header, type }) => {
 
   const getDeptEmail = (department) => {
     const departmentEmails = {
-      Budget: 'jverceluz@gbox.adnu.edu.ph',
-      Finance: 'jammariano@gbox.adnu.edu.ph',
-      Management: 'alturiano@gbox.adnu.edu.ph',
-      Executive: 'mmnagrampa@gbox.adnu.edu.ph',
+      Budget: 'bjbalona@gbox.adnu.edu.ph',
+      Finance: 'dfvargas@gbox.adnu.edu.ph',
+      Management: 'jodacuba@gbox.adnu.edu.ph',
+      Executive: 'mapawan@gbox.adnu.edu.ph',
     }
     return departmentEmails[department] || '';
   }
@@ -58,6 +58,7 @@ const Card = ({ name, date, body, approve, urgent, header, type }) => {
         },
         'of2c11tg74qRsTu9R'
       );
+      console.log(recipientEmail)
       toast({
         title: 'Email sent!',
         description: "Announcement sent to the receiver!",
