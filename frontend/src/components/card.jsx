@@ -68,7 +68,7 @@ const Card = ({ id, name, date, body, approve, urgent, header, type, onSend }) =
         isClosable: true,
       });
   
-      const res = await fetch(`http://localhost:8000/api/tickets/${id}`, {
+      const res = await fetch(`/api/tickets/${id}`, {
         method: 'DELETE',
       });
 
